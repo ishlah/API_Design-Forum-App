@@ -13,16 +13,16 @@
 # Core Entity
 
 ## User
-### id, fullName, userName, email, password, avatarUrl
+- id, fullName, userName, email, password, avatarUrl
 
 ## Thread
-### id, title, category, content, authorId
+- id, title, category, content, authorId
 
 ## Reply
-### id, threadId, replyContent, replyerId
+- id, threadId, replyContent, replyerId
 
 ## Bookmark
-### id, threadId, bookmark, bookmarkerId
+- id, threadId, bookmark, bookmarkerId
 
 # API Design
 
