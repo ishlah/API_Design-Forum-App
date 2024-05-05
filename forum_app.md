@@ -12,19 +12,19 @@
 
 # Core Entity
 
-> [!User]
-> id, fullName, userName, email, password, avatarUrl
+## User
+### id, fullName, userName, email, password, avatarUrl
 
-> [!Thread]
-> id, title, category, content, authorId
+## Thread
+### id, title, category, content, authorId
 
-> [!Reply]
-> id, threadId, replyContent, replyerId
+## Reply
+### id, threadId, replyContent, replyerId
 
-> [!Bookmark]
-> id, threadId, bookmark, bookmarkerId
+## Bookmark
+### id, threadId, bookmark, bookmarkerId
 
-# Api Design
+# API Design
 
 ## Authentication
 
