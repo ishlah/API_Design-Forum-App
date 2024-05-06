@@ -111,7 +111,7 @@
     
 ### Creat Reply
 
-- Endpoint : **/api/replys**
+- Endpoint : **/api/replies**
 - Method : **post**
 
 - Request body :
