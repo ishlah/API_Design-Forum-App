@@ -9,6 +9,8 @@
 - As a user I want to be able to Update my Personal profile
 - As a user, I want to be able to Save/Bookmark Threads
 - As a user, I want to be able to UnSave/UnBM Threads
+  
+<img width="350" alt="drawSQL-image-export-2024-05-06" src="https://github.com/ishlah/API_Design-Forum-App/assets/108965733/9f262a0b-a026-49d6-912b-15b7f88d751a">
 
 # Core Entity
 
@@ -16,13 +18,13 @@
 - id, fullName, userName, email, password, avatarUrl
 
 ## Thread
-- id, title, category, content, authorId
+- id, title, category, content, userId
 
 ## Reply
-- id, threadId, replyContent, replyerId
+- id, threadId, replyContent, userId
 
 ## Bookmark
-- id, threadId, bookmark, bookmarkerId
+- id, threadId, userId
 
 # API Design
 
@@ -30,8 +32,8 @@
 
 ### Register
 
-- Endpoint : /api/auth/register
-- Method : post
+- Endpoint : **/api/auth/register**
+- Method : **post**
 
 - Request body :
 
@@ -41,134 +43,158 @@
   - password : string (required)
   - avatarUrl : string (optional)
 
-- Respond :
+- Response :
 
   - message : string
   - status : number
 
-- Example Respond :
-  - Success : {message : "Registration successfully"}, status(201)
-  - Conflic : {message : "Email already used"}, status(400)
-  - Error : {message : "Registration error"}, status(500)
+- Example Response :
+  - Success : ```{message : "Registration successfully", status(201)}```
+  - Conflic : ```{message : "Email already used", status(400)}```
+  - Error : ```{message : "Registration error", status(500)}```
 
 ### Login
 
-- Endpoint : /api/auth/login
-- Method : post
+- Endpoint : **/api/auth/login**
+- Method : **post**
 
 - Request body :
 
   - email : string (required)
   - password : string (required)
 
-- Respond :
+- Response :
 
   - message : string
   - status : number
 
-- Example Respond :
-  - Success : {message : "Login successfully"} status(200)
-  - Error : {message : "Email or password invalid"} status(401)
-  - Error : {message : "Login error"} status(500)
+- Example Response :
+  - Success : ```{message : "Login successfully", status(200)} ```
+  - Error : ```{message : "Email or password invalid", status(401)}```
+  - Error : ```{message : "Login error", status(500)} ```
 
 ## Thread
 
 ### Creat Thread
 
-- Endpoint : /api/threads?filter=title,category,content,authorId.userName
-- Method : post
+- Endpoint : **/api/threads**
+- Method : **post**
 
 - Request body :
 
   - title : string (required)
   - category : string (optional)
   - content : string (required)
+  - userId : string(required) 
 
-- Respond :
+- Response :
 
   - message : string
   - status : number
   - data : object
 
-- Example Respond :
-  - Success : {message : "Successfully creat new thread"}, status(201), data : {
+- Example Response :
+  - Success :
+    ```
+    {
+    message : "Successfully creat new thread",
+    status(201),
+    data : {
     title : "Javascript vs Java",
     category : "technology",
     content : "lorem ipsum"
-    author : "user 1"
+    userId : "user 1"}
     }
-  - Error : {message : "error"} status(500)
-
+        
+    ```
+  - Error : ```{message : "error", status(500)}```
+    
 ### Creat Reply
 
-- Endpoint : /api/threads/:id/replys?filter=threadId.title,replayContent,replyerId.userName
-- Method : post
+- Endpoint : **/api/replys**
+- Method : **post**
 
 - Request body :
 
+  - threadId :string (required)
   - replyContent : string (required)
+  - userId : string(required)
 
-- Respond :
+- Response :
 
   - message : string
   - status : number
   - data : object
 
-- Example Respond :
-  - Success : {message : "Successfully creat new reply"}, status(201), data : {
-    title : "Jago Javascript",
+- Example Response :
+  - Success :
+    ```
+    {
+    message : "Successfully creat new reply",
+    status(201),
+    data : {
+    threadId : "Jago Javascript",
     replycontent : "lorem ipsum",
-    replyer : "user 2"
+    userId : "user 2"}
     }
-  - Error : {message : "error"} status(500)
+
+    ```
+  - Error : ```{message : "error", status(500)}```
 
 ### Bookmarks
 
-- Endpoint : /api/threads/:id/bookmarks?threadId.title,bookmark,bookmarkerId.userName
-- Method : post
+- Endpoint : **/api/bookmarks**
+- Method : **post**
 
 - Request body :
 
-  - bookmark : boolean (required)
+  - threadId : string(required)
+  - userId : string (required)
 
-- Respond :
+- Response :
 
   - message : string
   - status : number
   - data : object
 
-- Example Respond :
-  - Success : {message : "Successfully add bookmark"}, status(201), data : {
-    title : "Api Design",
-    bookmark : 1,
-    bookmarker : "user 2"
+- Example Response :
+  - Success :
+    ```
+    {
+    message : "Successfully add bookmark",
+    status(201),
+    data : {
+    threadId : "Api Design"
+    userId: "user 2"}
     }
-  - Error : {message : "error"} status(500)
+
+    ```
+  - Error : ```{message : "error", status(500)}```
 
 ### Unbookmarks
 
-- Endpoint : /api/bookmarks/:id
-- Method : delete
+- Endpoint : **/api/bookmarks/:id**
+- Method : **delete**
 
 - Request body :
 
-  -
+  - id : string (required)
 
-- Respond :
+- Response :
 
   - message : string
   - status : number
 
-- Example Respond :
-  - Success : {message : "Successfully remove bookmark"}, status(200)
-  - Error : {message : "error"} status(500)
+- Example Response :
+  - Success : ```{message : "Successfully remove bookmark", status(200)`}``
+  - Error : ```{message : "error",status(500)}```
 
 ## User
 
 ### Update Profile
 
-- Endpoint : /api/users/:id
-- Method : patch
+- Endpoint : **/api/users/:id**
+- Method : **patch**
 
 - Request body :
 
@@ -178,18 +204,29 @@
   - password : string (optional)
   - avatarUrl : string (optional)
 
-- Respond :
+- Response :
 
   - message : string
   - status : number
   - data : object
 
-- Example Respond :
-  - Success : {message : "Update profile successfully"}, status(200), data : {
+- Example Response :
+  - Success :
+    ```
+    {
+    message : "Update profile successfully",
+    status(200),
+    data : {
     fullName : "mark clekc",
     userName : "mark_user",
     email : "mark@gmail.com",
     password : "12345",
-    avatarUrl : "http://qwd43.com"
+    avatarUrl : "http://qwd43.png"}
     }
-  - Error : {message : "error"} status(500)
+
+    ```
+    
+  - Error : ```{message : "error", status(500)}```
+
+  
+
